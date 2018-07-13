@@ -1,0 +1,28 @@
+<div class="container">
+
+<h1>{{title}}</h1>
+<!-- <ol>
+  <li *ngFor="let goal of goals">{{goal}}</li>
+</ol> -->
+
+<mat-form-field>
+  <input matInput type="text" [(ngModel)]="name">
+</mat-form-field>
+
+<mat-form-field>
+  <input matInput [matDatepicker]="myDatepicker" [(ngModel)]="date">
+  <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+  <mat-datepicker #myDatepicker></mat-datepicker>
+</mat-form-field>
+
+<button mat-raised-button color="primary" type="submit" (click)="onAddGoal()">Add Button</button>
+<br>
+
+<mat-chip-list>
+  <mat-chip selected color="accent" *ngFor="let goal of goals" (click)="onSelect(goal)">{{goal.name}}, {{goal.date | date}}</mat-chip>
+</mat-chip-list>
+<br>
+
+</div>
+
+<app-goal-detail [passedGoal]="selectedGoal" *ngIf="selectedGoal"></app-goal-detail>
