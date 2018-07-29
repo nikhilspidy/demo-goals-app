@@ -1,7 +1,7 @@
 <mat-card id="detail">
   <mat-title>{{passedGoal.name}}</mat-title>
   <mat-card-content>{{passedGoal.date | date}}</mat-card-content>
-  <mat-icon class="fav-icon" (click)="favGoal()" [color]="passedGoal.favorite === true ? 'warn' : 'disabled'">favorite</mat-icon>
-  <mat-icon class="delete-icon" (click)="delGoal()">delete</mat-icon>
+  <mat-icon class="fav-icon cursor" (click)="favGoal()" [color]="passedGoal.favorite === true ? 'warn' : 'disabled'">favorite</mat-icon>
+  <mat-icon class="delete-icon cursor" (click)="delGoal()">delete</mat-icon>
   <p></p>
 </mat-card>
