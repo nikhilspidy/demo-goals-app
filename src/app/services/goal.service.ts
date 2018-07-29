@@ -48,11 +48,11 @@ export class GoalService {
   // }
 
   getGoals(): Observable<GOAL[]> {
-    return this.http.get<GOAL[]>(this.uriLocal);
+    return this.http.get<GOAL[]>(this.uri);
   }
 
   updateGoal (goal: GOAL): Observable<any> {
-    return this.http.put(this.uriLocalOne, goal, httpOptions).pipe(
+    return this.http.put(this.uriOne, goal, httpOptions).pipe(
       tap(_ => this.log(`updated goal=${goal.name}`)),
       catchError(this.handleError<any>('updateGoal'))
     );
@@ -61,7 +61,7 @@ export class GoalService {
   deleteGoal(goal: GOAL | number) {
 
     const id = typeof goal === 'number' ? goal : goal._id;
-    const url = `${this.uriLocalOne}/${id}`;
+    const url = `${this.uriOne}/${id}`;
 
     return this.http.delete<GOAL>(url, httpOptions2).pipe(
       tap((goaly: GOAL) => this.log(`goal deleted=${goaly.name}`)),
@@ -71,7 +71,7 @@ export class GoalService {
 
   addGoal(goal: GOAL): Observable<GOAL> {
 
-    return this.http.post<GOAL>(this.uriLocalOne, goal, httpOptions).pipe(
+    return this.http.post<GOAL>(this.uriOne, goal, httpOptions).pipe(
       tap((goaly: GOAL) => this.log(`added goal w/ name=${goaly.name}`)),
       catchError(this.handleError('addGoal', goal))
     );
