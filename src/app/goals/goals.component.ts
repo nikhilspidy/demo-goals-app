@@ -48,9 +48,9 @@ export class GoalsComponent implements OnInit {
         console.log('added');
       });
 
-    // setTimeout(() => {
-    //   this.getGoals();
-    // }, 50);
+    setTimeout(() => {
+      this.getGoals();
+    }, 50);
 
   }
 
