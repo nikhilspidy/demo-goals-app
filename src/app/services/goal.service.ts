@@ -7,7 +7,7 @@ import {catchError, tap} from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Content-Type': 'application/json'
   })
 };
 
@@ -57,12 +57,10 @@ export class GoalService {
     const id = typeof goal === 'number' ? goal : goal._id;
     const url = `${this.uriOne}/${id}`;
 
-    console.log('url ', url);
-
     return this.http.delete<GOAL>(url, httpOptions).pipe(
       tap((goaly: GOAL) => this.log(`goal deleted=${goaly.name}`)),
       catchError(this.handleError('deleteGoal', goal))
-    )
+    );
   }
 
   addGoal(goal: GOAL): Observable<GOAL> {
