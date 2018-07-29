@@ -50,7 +50,7 @@ export class GoalsComponent implements OnInit {
 
     setTimeout(() => {
       this.getGoals();
-    }, 50);
+    }, 100);
 
   }
 
