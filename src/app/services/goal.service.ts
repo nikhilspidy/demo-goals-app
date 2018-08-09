@@ -51,14 +51,12 @@ export class GoalService {
     return this.http.get<GOAL[]>(this.uri);
   }
 
-  getGoal(id: string): Observable<any> {
-    console.log(this.uriOne + '/' + id);
-
+  getGoal(id: number) {
     const url = this.uriOne + '/' + id;
     return this.http.get<GOAL>(url);
   }
 
-  updateGoal (goal: GOAL): Observable<any> {
+  updateGoal(goal: GOAL): Observable<any> {
     return this.http.put(this.uriOne, goal, httpOptions).pipe(
       tap(_ => this.log(`updated goal=${goal.name}`)),
       catchError(this.handleError<any>('updateGoal'))

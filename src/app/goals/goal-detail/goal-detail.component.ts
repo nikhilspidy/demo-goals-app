@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GOAL} from '../../models/goal.model';
 import {GoalService} from '../../services/goal.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -25,6 +25,12 @@ export class GoalDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.getGoal();
+    }, 1);
+  }
+
+  getGoal() {
 
     const id = this.router.snapshot.params['id'];
 

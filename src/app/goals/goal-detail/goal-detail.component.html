@@ -1,8 +1,10 @@
+<div *ngIf="passedGoal">
+
 <mat-card id="detail">
-  <mat-title>{{passedGoal.name}}</mat-title>
+  <mat-card-title>{{passedGoal.name}}</mat-card-title>
   <mat-card-content>{{passedGoal.date | date}}</mat-card-content>
   <mat-icon class="fav-icon" (click)="favGoal(passedGoal)" [color]="passedGoal.favorite === true ? 'warn' : 'disabled'">favorite</mat-icon>
 
   <mat-icon class="delete-icon" (click)="delGoal(passedGoal)">delete</mat-icon>
-  <p>{{error}}</p>
 </mat-card>
+</div>
