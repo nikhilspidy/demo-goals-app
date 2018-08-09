@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { GoalsComponent } from './goals/goals.component';
 import { MatChipsModule,
@@ -16,12 +16,15 @@ import { MatChipsModule,
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoalDetailComponent } from './goals/goal-detail/goal-detail.component';
 import { GoalService } from './services/goal.service';
+import { AboutComponent } from './about/about/about.component';
+import {AppRoutingModule} from './app-routing';
 
 @NgModule({
   declarations: [
     AppComponent,
     GoalsComponent,
-    GoalDetailComponent
+    GoalDetailComponent,
+    AboutComponent
   ],
   imports: [
     FormsModule,
@@ -36,7 +39,8 @@ import { GoalService } from './services/goal.service';
     MatNativeDateModule,
     MatCardModule,
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [GoalService],
   schemas: [
