@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { GOAL } from '../../models/goal.model';
+import {Component, OnInit, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
+import {GOAL} from '../../models/goal.model';
+import {GoalService} from '../../services/goal.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-goal-detail',
@@ -8,28 +10,75 @@ import { GOAL } from '../../models/goal.model';
 })
 export class GoalDetailComponent implements OnInit {
 
-  @Input() passedGoal: GOAL;
-  @Output() favoriteGoal: EventEmitter<GOAL> = new EventEmitter();
-  @Output() deleteGoal: EventEmitter<GOAL> = new EventEmitter();
+  // @Input() passedGoal: GOAL;
+  // @Output() favoriteGoal: EventEmitter<GOAL> = new EventEmitter();
+  // @Output() deleteGoal: EventEmitter<GOAL> = new EventEmitter();
 
-  constructor() { }
+
+  passedGoal: GOAL;
+  error: string;
+  goals: GOAL[];
+
+  constructor(private goalService: GoalService,
+              public router: ActivatedRoute,
+              public redirect: Router) {
+  }
 
   ngOnInit() {
-    console.log('goals ', this.passedGoal);
+
+    const id = this.router.snapshot.params['id'];
+
+    this.goalService.getGoal(id)
+      .subscribe(
+        goal => this.passedGoal = goal,
+        error => this.error = error);
   }
 
 
-  favGoal() {
-    if(this.passedGoal.favorite === false || this.passedGoal.favorite == null) {
-      this.passedGoal.favorite = true;
+  favGoal(goal: GOAL) {
+    if (goal.favorite === false || goal.favorite == null) {
+      goal.favorite = true;
     } else {
-      this.passedGoal.favorite = false;
+      goal.favorite = false;
     }
-    this.favoriteGoal.emit(this.passedGoal);
+    // this.goalService.updateGoal(this.passedGoal);
+
+    this.updateGoal(goal);
   }
 
-  delGoal() {
-    this.deleteGoal.emit(this.passedGoal);
+
+  updateGoal(event): void {
+    console.log('up ', event);
+    this.goalService.updateGoal(event)
+      .subscribe(() => {
+        console.log(event, ' updated');
+      });
   }
+
+  delGoal(event): void {
+    console.log('event ', event);
+    // this.goals = this.goals.filter(g => g !== event);
+    this.goalService.deleteGoal(event).subscribe(() => {
+      this.goBack();
+    });
+  }
+
+  goBack(): void {
+    this.redirect.navigate(['/home']);
+  }
+
+
+  // favGoal() {
+  //   if(this.passedGoal.favorite === false || this.passedGoal.favorite == null) {
+  //     this.passedGoal.favorite = true;
+  //   } else {
+  //     this.passedGoal.favorite = false;
+  //   }
+  //   this.favoriteGoal.emit(this.passedGoal);
+  // }
+  //
+  // delGoal() {
+  //   this.deleteGoal.emit(this.passedGoal);
+  // }
 
 }

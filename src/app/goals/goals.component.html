@@ -19,10 +19,16 @@
 <br>
 
 <mat-chip-list>
-  <mat-chip selected [color]="goal.favorite === true ? 'warn' : 'accent'" *ngFor="let goal of goals" (click)="onSelect(goal)">{{goal.name}}, {{goal.date | date}}</mat-chip>
+  <mat-chip selected [color]="goal.favorite === true ? 'warn' : 'accent'"
+            *ngFor="let goal of goals" (click)="onSelect(goal)"
+            routerLink="/goal/{{goal._id}}"
+  >{{goal.name}}, {{goal.date | date}}</mat-chip>
 </mat-chip-list>
 <br>
 
 </div>
 
-<app-goal-detail [passedGoal]="selectedGoal" (favoriteGoal)="updateGoal($event)" (deleteGoal)="deletedGoal($event)" *ngIf="selectedGoal"></app-goal-detail>
+<!--<app-goal-detail [passedGoal]="selectedGoal" (favoriteGoal)="updateGoal($event)" (deleteGoal)="deletedGoal($event)" *ngIf="selectedGoal"></app-goal-detail>-->
+
+
+<!---->

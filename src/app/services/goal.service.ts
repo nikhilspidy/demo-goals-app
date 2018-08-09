@@ -51,6 +51,13 @@ export class GoalService {
     return this.http.get<GOAL[]>(this.uri);
   }
 
+  getGoal(id: string): Observable<any> {
+    console.log(this.uriOne + '/' + id);
+
+    const url = this.uriOne + '/' + id;
+    return this.http.get<GOAL>(url);
+  }
+
   updateGoal (goal: GOAL): Observable<any> {
     return this.http.put(this.uriOne, goal, httpOptions).pipe(
       tap(_ => this.log(`updated goal=${goal.name}`)),
@@ -58,10 +65,9 @@ export class GoalService {
     );
   }
 
-  deleteGoal(goal: GOAL | number) {
+  deleteGoal(goal: GOAL): Observable<any> {
 
-    const id = typeof goal === 'number' ? goal : goal._id;
-    const url = `${this.uriOne}/${id}`;
+    const url = this.uriOne + '/' + goal._id;
 
     return this.http.delete<GOAL>(url, httpOptions2).pipe(
       tap((goaly: GOAL) => this.log(`goal deleted=${goaly.name}`)),
