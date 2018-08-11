@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {GOAL} from '../models/goal.model';
-import {GoalService} from '../services/goal.service';
+import { GoalService } from '../services/goal.service';
 
 @Component({
   selector: 'app-goals',
@@ -17,21 +17,18 @@ export class GoalsComponent implements OnInit {
   selectedGoal: GOAL;
   error: string;
 
-  constructor(private goalService: GoalService) {
-  }
+  constructor(private goalService: GoalService){}
 
-  ngOnInit() {
+  ngOnInit(){
     // this.goals = this.goalService.getGoals();
-
     this.getGoals();
-
   }
 
   getGoals() {
     this.goalService.getGoals().subscribe(
       goals => this.goals = goals,
-      error => this.error = error
-    );
+      error => this.error = error;
+    )
   }
 
   addGoal() {
@@ -41,35 +38,18 @@ export class GoalsComponent implements OnInit {
 
     // this.goalService.addGoal(goal);
 
-    this.goals.push(goal);
+    this.goalService.addGoal(goal).subscribe(
+      message => console.log('goal added');
+    )
 
-    this.goalService.addGoal(goal)
-      .subscribe(goal => {
-        console.log('added');
-      });
-
-    setTimeout(() => {
+    setTimeout( () => {
       this.getGoals();
-    }, 50);
-
+    }, 50)
   }
 
-  onSelect(goal: GOAL) {
+  onSelect(goal: GOAL){
     this.selectedGoal = goal;
   }
 
-  updateGoal(event): void {
-    this.goalService.updateGoal(event)
-      .subscribe(() => this.goBack());
-  }
 
-  deletedGoal(event) {
-
-    this.goals = this.goals.filter(g => g !== event);
-    this.goalService.deleteGoal(event).subscribe();
-  }
-
-  goBack(): void {
-    // this.location.back();
-  }
 }

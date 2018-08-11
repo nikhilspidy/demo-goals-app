@@ -1,8 +1,7 @@
-import {RouterModule, Routes} from '@angular/router';
-import {NgModule} from '@angular/core';
-import {AppComponent} from './app.component';
-import {AboutComponent} from './about/about/about.component';
+import {Routes, RouterModule} from '@angular/router'
 import {GoalsComponent} from './goals/goals.component';
+import {NgModule} from '@angular/core';
+import {AboutComponent} from './about/about.component';
 import {GoalDetailComponent} from './goals/goal-detail/goal-detail.component';
 
 const appRoutes: Routes = [
@@ -14,7 +13,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes);
   ],
   exports: [RouterModule]
 })

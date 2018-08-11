@@ -3,5 +3,5 @@ export class GOAL {
   date: Date;
   favorite?: boolean;
   id?: number;
-  _id: number;
+  _id?: string;
 }

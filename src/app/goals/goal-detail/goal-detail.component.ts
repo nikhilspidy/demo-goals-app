@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {GOAL} from '../../models/goal.model';
-import {GoalService} from '../../services/goal.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { GOAL } from '../../models/goal.model';
 import {ActivatedRoute, Router} from '@angular/router';
+import {GoalService} from '../../services/goal.service'
 
 @Component({
   selector: 'app-goal-detail',
@@ -10,81 +10,57 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class GoalDetailComponent implements OnInit {
 
-  // @Input() passedGoal: GOAL;
+  // @Input() goal: GOAL;
   // @Output() favoriteGoal: EventEmitter<GOAL> = new EventEmitter();
   // @Output() deleteGoal: EventEmitter<GOAL> = new EventEmitter();
 
-
-  passedGoal: GOAL;
+  goal: GOAL;
   error: string;
-  goals: GOAL[];
 
-  constructor(private goalService: GoalService,
-              public router: ActivatedRoute,
-              public redirect: Router) {
-  }
+  constructor(private router: ActivatedRoute,
+    private goalService: GoalService,
+    private redirect: Router) { }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.getGoal();
-    }, 1);
+    this.getGoal();
   }
 
-  getGoal() {
-
+  getGoal(){
     const id = this.router.snapshot.params['id'];
 
-    this.goalService.getGoal(id)
-      .subscribe(
-        goal => this.passedGoal = goal,
-        error => this.error = error);
+    this.goalService.getGoal(id).subscribe(
+      goal => this.goal = goal,
+      error => this.error = error;
+    )
   }
 
-
   favGoal(goal: GOAL) {
-    if (goal.favorite === false || goal.favorite == null) {
-      goal.favorite = true;
+    if(this.goal.favorite === false || this.goal.favorite == null) {
+      this.goal.favorite = true;
     } else {
-      goal.favorite = false;
+      this.goal.favorite = false;
     }
-    // this.goalService.updateGoal(this.passedGoal);
+    // this.favoriteGoal.emit(this.goal);
 
     this.updateGoal(goal);
   }
 
-
-  updateGoal(event): void {
-    console.log('up ', event);
-    this.goalService.updateGoal(event)
-      .subscribe(() => {
-        console.log(event, ' updated');
-      });
+  updateGoal(goal: GOAL) {
+    this.goalService.updateGoal(goal).subscribe(
+      message => console.log('goal update');
+    );
   }
 
-  delGoal(event): void {
-    console.log('event ', event);
-    // this.goals = this.goals.filter(g => g !== event);
-    this.goalService.deleteGoal(event).subscribe(() => {
+  deleteGoal(goal: GOAL) {
+    // this.goalService.deleteGoal(event);
+    this.goalService.deleteGoal(goal).subscribe( () => {
       this.goBack();
-    });
+  }
+    )
   }
 
-  goBack(): void {
+  goBack(){
     this.redirect.navigate(['/home']);
   }
-
-
-  // favGoal() {
-  //   if(this.passedGoal.favorite === false || this.passedGoal.favorite == null) {
-  //     this.passedGoal.favorite = true;
-  //   } else {
-  //     this.passedGoal.favorite = false;
-  //   }
-  //   this.favoriteGoal.emit(this.passedGoal);
-  // }
-  //
-  // delGoal() {
-  //   this.deleteGoal.emit(this.passedGoal);
-  // }
 
 }

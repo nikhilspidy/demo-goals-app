@@ -16,8 +16,8 @@ import { MatChipsModule,
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoalDetailComponent } from './goals/goal-detail/goal-detail.component';
 import { GoalService } from './services/goal.service';
-import { AboutComponent } from './about/about/about.component';
-import {AppRoutingModule} from './app-routing';
+import { AboutComponent } from './about/about.component';
+import { AppRoutingModule } from './app-routing';
 
 @NgModule({
   declarations: [

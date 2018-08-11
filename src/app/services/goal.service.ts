@@ -1,21 +1,12 @@
 import {Injectable} from '@angular/core';
 import {GOAL} from '../models/goal.model';
-import {Observable, of} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError, tap} from 'rxjs/operators';
-
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
   })
-};
-
-const httpOptions2 = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded'
-  })
-};
+}
 
 @Injectable({
   providedIn: 'root'
@@ -25,93 +16,56 @@ export class GoalService {
   // goals: GOAL[] = [
   //   {
   //     name: '5km run',
-  //     date: '07-26-18'
+  //     date: new Date('2018-10-24')
   //   },
   //   {
   //     name: '10km run',
-  //     date: '08-13-18'
+  //     date: new Date('2019-02-02')
   //   }
   // ];
 
+  const url = 'https://so-goals-api.herokuapp.com/api/goals';
+  const urlOne = 'https://so-goals-api.herokuapp.com/api/goal';
 
-  private uri = 'https://so-goals-api.herokuapp.com/api/goals';
-  private uriOne = 'https://so-goals-api.herokuapp.com/api/goal';
-  private uriLocal = 'http://localhost:8010/api/goals';
-  private uriLocalOne = 'http://localhost:8010/api/goal';
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
+  getGoals(): Observable<GOAL[]>{
+    // return this.goals;
+    return this.http.get<GOAL[]>(this.url);
   }
 
-
-  // getGoals(){
-  //   return this.goals;
-  // }
-
-  getGoals(): Observable<GOAL[]> {
-    return this.http.get<GOAL[]>(this.uri);
+  getGoal(id: string): Observable<any>{
+    const newUrl = this.urlOne + '/' + id;
+    return this.http.get<GOAL>(newUrl);
   }
 
-  getGoal(id: number) {
-    const url = this.uriOne + '/' + id;
-    return this.http.get<GOAL>(url);
+  getGoal(id: number): Observable<any>{
+    return this.http.get<GOAL>(this.urlOne + '/' + id);
   }
 
-  updateGoal(goal: GOAL): Observable<any> {
-    return this.http.put(this.uriOne, goal, httpOptions).pipe(
-      tap(_ => this.log(`updated goal=${goal.name}`)),
-      catchError(this.handleError<any>('updateGoal'))
-    );
+  addGoal(goal): Observable<GOAL> {
+    // this.goals.push(goal);
+    return this.http.post<GOAL>(this.urlOne, goal);
   }
 
-  deleteGoal(goal: GOAL): Observable<any> {
-
-    const url = this.uriOne + '/' + goal._id;
-
-    return this.http.delete<GOAL>(url, httpOptions2).pipe(
-      tap((goaly: GOAL) => this.log(`goal deleted=${goaly.name}`)),
-      catchError(this.handleError('deleteGoal', goal))
-    );
+  updateGoal(goal): Observable<any> {
+    return this.http.put(this.urlOne, goal);
   }
 
-  addGoal(goal: GOAL): Observable<GOAL> {
-
-    return this.http.post<GOAL>(this.uriOne, goal, httpOptions).pipe(
-      tap((goaly: GOAL) => this.log(`added goal w/ name=${goaly.name}`)),
-      catchError(this.handleError('addGoal', goal))
-    );
-
-    // {name: 'sam', date: Date.now(), id: 3, favorite: true}
+  deleteGoal(goal): Observable<any> {
+    const newUrl = this.urlOne + '/' + goal._id;
+    return this.http.delete(newUrl, httpOptions);
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
-
-  private log(message: string) {
-    console.log(`goalService: ${message}`);
-  }
-
-  // addGoal(goal) {
-  //   this.goals.push(goal);
-  // }
-  //
   // updateGoal(goal) {
-  //   this.goals.forEach( (goal, i) {
-  //     if goal === event
-  //     this.goals[i] = event;
+  //   this.goals.forEach( (goal, i) => {
+  //     if (goal === goal){
+  //       this.goals[i] = goal;
+  //     }
+  //
   //   })
   // }
-  //
+
   // deleteGoal(event) {
   //   if (this.goals.includes(event)) {
   //     this.goals.forEach( (goal, i) => {
