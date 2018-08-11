@@ -16,6 +16,7 @@ export class GoalDetailComponent implements OnInit {
 
   goal: GOAL;
   error: string;
+  message: string;
 
   constructor(private router: ActivatedRoute,
     private goalService: GoalService,
@@ -47,7 +48,7 @@ export class GoalDetailComponent implements OnInit {
 
   updateGoal(goal: GOAL) {
     this.goalService.updateGoal(goal).subscribe(
-      message => console.log('goal update');
+      message => this.message = message;
     );
   }
 

@@ -16,6 +16,7 @@ export class GoalsComponent implements OnInit {
   date: Date;
   selectedGoal: GOAL;
   error: string;
+  message: string;
 
   constructor(private goalService: GoalService){}
 
@@ -39,7 +40,7 @@ export class GoalsComponent implements OnInit {
     // this.goalService.addGoal(goal);
 
     this.goalService.addGoal(goal).subscribe(
-      message => console.log('goal added');
+        message => this.message = message;
     )
 
     setTimeout( () => {
