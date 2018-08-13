@@ -1,6 +1,4 @@
 <div class="container">
-
-<h1>{{title}}</h1>
 <!-- <ol>
   <li *ngFor="let goal of goals">{{goal}}</li>
 </ol> -->
@@ -22,9 +20,8 @@
   <mat-chip selected
   [color]="goal.favorite === true ? 'warn' : 'accent'"
   *ngFor="let goal of goals"
-  (click)="onSelect(goal)"
   routerLink="/goal/{{goal._id}}"
-  >{{goal.name}}, {{goal.date | date}}</mat-chip>
+  (click)="onSelect(goal)">{{goal.name}}, {{goal.date | date}} </mat-chip>
 </mat-chip-list>
 <br>
 

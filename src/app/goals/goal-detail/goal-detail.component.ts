@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GOAL } from '../../models/goal.model';
 import {ActivatedRoute, Router} from '@angular/router';
-import {GoalService} from '../../services/goal.service'
+import {GoalService} from '../../services/goal.service';
 
 @Component({
   selector: 'app-goal-detail',
@@ -15,24 +15,22 @@ export class GoalDetailComponent implements OnInit {
   // @Output() deleteGoal: EventEmitter<GOAL> = new EventEmitter();
 
   goal: GOAL;
-  error: string;
-  message: string;
 
   constructor(private router: ActivatedRoute,
-    private goalService: GoalService,
+     private goalService: GoalService,
     private redirect: Router) { }
 
   ngOnInit() {
     this.getGoal();
   }
 
-  getGoal(){
+  getGoal() {
     const id = this.router.snapshot.params['id'];
 
     this.goalService.getGoal(id).subscribe(
-      goal => this.goal = goal,
-      error => this.error = error;
+      goal => this.goal = goal
     )
+
   }
 
   favGoal(goal: GOAL) {
@@ -42,26 +40,26 @@ export class GoalDetailComponent implements OnInit {
       this.goal.favorite = false;
     }
     // this.favoriteGoal.emit(this.goal);
-
     this.updateGoal(goal);
+
   }
 
   updateGoal(goal: GOAL) {
-    this.goalService.updateGoal(goal).subscribe(
-      message => this.message = message;
-    );
+    this.goalService.updateGoal(goal).subscribe(() => {
+      console.log('goal updated')
+    })
   }
 
   deleteGoal(goal: GOAL) {
-    // this.goalService.deleteGoal(event);
+
     this.goalService.deleteGoal(goal).subscribe( () => {
       this.goBack();
-  }
-    )
+    })
   }
 
-  goBack(){
+  goBack() {
     this.redirect.navigate(['/home']);
   }
+
 
 }
